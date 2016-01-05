@@ -1,0 +1,23 @@
+<ion-view view-title="Weather">
+  <ion-content class="padding">
+    <div class="list card">
+      <div class="item item-divider">Celsius</div>
+        <div class="item item-body">
+          <label class="item item-input">
+              <input class="celsius" type="number" name="celsius" ng-model="weather.celsius" ng-change="changeCelsius()"/>℃
+          </label>
+        </div>
+    </div>
+    <div class="list card">
+      <div class="item item-divider">Fahrenheit</div>
+      <div class="item item-body">
+        <div class="item-range range-positive">
+          <p class="fahrenheit">{{weather.fahrenheit}}℉</p>
+          <i class="icon ion-ios-snowy"></i>
+          <input step="0.1" ng-min="{{weather.min}}" ng-max="{{weather.max}}" ng-model="weather.fahrenheit" ng-change="change()" value="{{weather.fahrenheit}}" class="fahrenheit" type="range" />
+          <i class="icon ion-ios-sunny"></i>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
