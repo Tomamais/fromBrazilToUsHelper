@@ -8,22 +8,30 @@ angular.module('starter.services', [])
     id: 0,
     name: 'Boston',
     state: 'Massachussets',
-    face: 'img/boston.jpg'
+    image: 'img/boston.jpg',
+    latitude: 42.3134791,
+    longitude: -71.1271969
   }, {
     id: 1,
     name: 'São Paulo',
     state: 'São Paulo',
-    face: 'img/saopaulo.jpg'
+    image: 'img/saopaulo.jpg',
+    latitude: -23.6815315,
+    longitude: -46.8754877
   }, {
     id: 2,
     name: 'Santiago',
     state: 'Santiago',
-    face: 'img/santiago.jpg'
+    image: 'img/santiago.jpg',
+    latitude: -33.441411,
+    longitude: -70.653822
   }, {
     id: 3,
     name: 'East Falmouth',
     state: 'Massachussets',
-    face: 'img/eastfalmouth.jpg'
+    image: 'img/eastfalmouth.jpg',
+    latitude: 41.5733903,
+    longitude: -70.5898785
   }];
 
   return {

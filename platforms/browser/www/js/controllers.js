@@ -1,10 +1,13 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope, $cordovaGeolocation, $ionicLoading) {
-
+.controller('DashCtrl', function($scope, $cordovaGeolocation, $ionicLoading, $stateParams, Locations) {
+  console.log('$stateParams:' + $stateParams);
+  
+  // add a loading modal on the top of screen
   $ionicLoading.show({
       template: '<ion-spinner icon="bubbles"></ion-spinner><br/>Acquiring location!'
   });
+  
   ionic.Platform.ready(function(){ 
     $scope.weather = {};
     $scope.weather.celsius = -17.78;
@@ -12,14 +15,11 @@ angular.module('starter.controllers', [])
     $scope.weather.min = 0;
     $scope.weather.max = 100;
     $scope.location = {};
-    $scope.location.latitude = 0;
-    $scope.location.longitude = 0;
     
     // location context
     var posOptions = { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 };
           
     $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) {
-    
       var lat  = position.coords.latitude;
       var long = position.coords.longitude;
         
@@ -33,10 +33,8 @@ angular.module('starter.controllers', [])
         
       // elements    
       var map = new google.maps.Map(document.getElementById("map"), mapOptions);          
-      var coords = document.getElementById("locationCoords");
+      var currentLocation = document.getElementById("currentLocation");
       $scope.map = map;   
-      $scope.location.latitude = lat;
-      $scope.location.longitude = long;
       
       new google.maps.Geocoder().geocode({ 'latLng': myLatlng }, function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
@@ -74,8 +72,8 @@ angular.module('starter.controllers', [])
                 break;
               }
             }
-            console.log("City: " + city + ", City2: " + cityAlt + ", Country: " + country + ", Country Code: " + countryCode);
-            coords.innerText = "City: " + city + ", Country: " + country;
+            // console.log("City: " + city + ", City2: " + cityAlt + ", Country: " + country + ", Country Code: " + countryCode);
+            currentLocation.innerText = "City: " + city + ", Country: " + country;
           }
         }
       });
