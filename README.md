@@ -9,4 +9,4 @@ This app uses Ionic for some purpose. First, I really like everything that Ionic
  - Cordova
  - And on...
 
-In a way to keep updated about these technologies, I decided to built something cool for my eyes and for my skill. Having said that, let's code!
+In a way to keep me updated about these technologies, I decided to built something cool for my eyes and for my skills. Having said that, let's code!
