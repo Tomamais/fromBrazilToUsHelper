@@ -16,10 +16,10 @@
   },
   "cordovaPlugins": [],
   "cordovaPlatforms": [
-    "ios",
     {
       "platform": "android",
       "locator": "browser"
-    }
+    },
+    "ios"
   ]
 }

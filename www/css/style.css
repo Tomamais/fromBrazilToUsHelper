@@ -12,3 +12,17 @@ input[type=number].celsius {
   height:60px;
   width: 2em;
 }
+
+#map {
+  height: 100%;
+  width: 100%;
+}
+
+.mapbody {
+  height: 300px;
+  width: 100%;
+}
+
+.scroll {
+  height: 100%;
+}
