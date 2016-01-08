@@ -14,10 +14,15 @@ input[type=number].celsius {
 }
 
 #map {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
+}
+
+.mapbody {
+  height: 300px;
+  width: 100%;
 }
 
 .scroll {
-    height: 100%;
+  height: 100%;
 }
