@@ -1,10 +1,13 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope, $cordovaGeolocation, $ionicLoading) {
-
+.controller('DashCtrl', function($scope, $cordovaGeolocation, $ionicLoading, $stateParams, Locations) {
+  console.log('$stateParams:' + $stateParams);
+  
+  // add a loading modal on the top of screen
   $ionicLoading.show({
       template: '<ion-spinner icon="bubbles"></ion-spinner><br/>Acquiring location!'
   });
+  
   ionic.Platform.ready(function(){ 
     $scope.weather = {};
     $scope.weather.celsius = -17.78;
@@ -12,28 +15,70 @@ angular.module('starter.controllers', [])
     $scope.weather.min = 0;
     $scope.weather.max = 100;
     $scope.location = {};
-    $scope.location.latitude = 0;
-    $scope.location.longitude = 0;
     
     // location context
     var posOptions = { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 };
           
     $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) {
-        var lat  = position.coords.latitude;
-        var long = position.coords.longitude;
-          
-        var myLatlng = new google.maps.LatLng(lat, long);
-          
-        var mapOptions = {
-            center: myLatlng,
-            zoom: 16,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };          
-          
-        var map = new google.maps.Map(document.getElementById("map"), mapOptions);          
-          
-        $scope.map = map;   
-        $ionicLoading.hide();           
+      var lat  = position.coords.latitude;
+      var long = position.coords.longitude;
+        
+      var myLatlng = new google.maps.LatLng(lat, long);
+        
+      var mapOptions = {
+          center: myLatlng,
+          zoom: 16,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+      };          
+        
+      // elements    
+      var map = new google.maps.Map(document.getElementById("map"), mapOptions);          
+      var currentLocation = document.getElementById("currentLocation");
+      $scope.map = map;   
+      
+      new google.maps.Geocoder().geocode({ 'latLng': myLatlng }, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          if (results[1]) {
+            var country = null, countryCode = null, city = null, cityAlt = null;
+            var c, lc, component;
+            for (var r = 0, rl = results.length; r < rl; r += 1) {
+              var result = results[r];
+
+              if (!city && result.types[0] === 'locality') {
+                for (c = 0, lc = result.address_components.length; c < lc; c += 1) {
+                  component = result.address_components[c];
+
+                  if (component.types[0] === 'locality') {
+                    city = component.long_name;
+                    break;
+                  }
+                }
+              }
+              else if (!city && !cityAlt && result.types[0] === 'administrative_area_level_1') {
+                for (c = 0, lc = result.address_components.length; c < lc; c += 1) {
+                  component = result.address_components[c];
+
+                  if (component.types[0] === 'administrative_area_level_1') {
+                    cityAlt = component.long_name;
+                    break;
+                  }
+                }
+              } else if (!country && result.types[0] === 'country') {
+                country = result.address_components[0].long_name;
+                countryCode = result.address_components[0].short_name;
+              }
+
+              if (city && country) {
+                break;
+              }
+            }
+            // console.log("City: " + city + ", City2: " + cityAlt + ", Country: " + country + ", Country Code: " + countryCode);
+            currentLocation.innerText = "City: " + city + ", Country: " + country;
+          }
+        }
+      });
+      
+      $ionicLoading.hide();           
           
     }, function(err) {
         $ionicLoading.hide();
