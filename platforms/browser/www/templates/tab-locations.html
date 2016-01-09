@@ -1,5 +1,6 @@
 <ion-view view-title="Locations">
   <ion-content>
+    <button class="button button-icon icon ion-ios-minus-outline" ng-click="showDelete = !showDelete"></button>
     <ion-list>
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="location in locations" type="item-text-wrap" href="#/tab/dash/{{location.id}}">
         <img ng-src="{{location.image}}">
