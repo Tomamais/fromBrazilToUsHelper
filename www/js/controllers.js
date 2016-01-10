@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-  .controller('DashCtrl', function ($scope, $cordovaGeolocation, $ionicLoading, $stateParams, Locations) {
+  .controller('DashCtrl', function ($scope, $cordovaGeolocation, $ionicLoading, $stateParams, Locations, Weather, weatherService) {
     // variables
     $scope.weather = {};
     $scope.weather.celsius = -17.78;
@@ -31,7 +31,6 @@ angular.module('starter.controllers', [])
             showLoading();
             $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) {
               setMapAndLocation(position.coords.latitude, position.coords.longitude);
-
               $ionicLoading.hide();
 
             }, function (err) {
@@ -62,6 +61,7 @@ angular.module('starter.controllers', [])
       // elements    
       var map = new google.maps.Map(document.getElementById("map"), mapOptions);
       var currentLocation = document.getElementById("currentLocation");
+      var currentLocationWeather = document.getElementById("currentLocationWeather");
       $scope.map = map;
 
       new google.maps.Geocoder().geocode({ 'latLng': myLatlng }, function (results, status) {
@@ -100,6 +100,13 @@ angular.module('starter.controllers', [])
                 break;
               }
             }
+            
+            // the weather
+            weatherService.getWeather(lat, long).then(function(data) {
+              $scope.weather.celsius = Number.parseFloat((data.main.temp - 273).toFixed(2));
+              $scope.weather.fahrenheit = Weather.getFfromC($scope.weather.celsius);
+            });
+            
             // console.log("City: " + city + ", City2: " + cityAlt + ", Country: " + country + ", Country Code: " + countryCode);
             currentLocation.innerText = "City: " + city + ", Country: " + country;
           }
@@ -109,13 +116,14 @@ angular.module('starter.controllers', [])
   
     // input events
     $scope.change = function () {
-      $scope.weather.celsius = Number.parseFloat((($scope.weather.fahrenheit - 32) / 1.8).toFixed(2));
+      $scope.weather.celsius = Weather.getCfromF($scope.weather.fahrenheit);
     };
 
     $scope.changeCelsius = function () {
-      $scope.weather.fahrenheit = Number.parseFloat(($scope.weather.celsius * 1.8 + 32).toFixed(2));
+      $scope.weather.fahrenheit = Weather.getFfromC($scope.weather.celsius);
     };
-
+    
+    
   })
 
   .controller('LocationsCtrl', function ($scope, Locations) {
