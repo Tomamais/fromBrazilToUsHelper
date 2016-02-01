@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-  .controller('DashCtrl', function ($scope, $cordovaGeolocation, $ionicLoading, $stateParams, Locations, Weather, weatherService) {
+  .controller('DashCtrl', function ($scope, $cordovaGeolocation, $ionicLoading, $stateParams, Locations, Weather, weatherService, $ionicPopup) {
     // variables
     $scope.weather = {};
     $scope.weather.celsius = -17.78;
@@ -35,6 +35,7 @@ angular.module('starter.controllers', [])
 
             }, function (err) {
               $ionicLoading.hide();
+              $ionicPopup.alert({ title: 'Ops!', template: 'Can\'t get your location' });
               console.log(err);
             });
           });
@@ -61,7 +62,6 @@ angular.module('starter.controllers', [])
       // elements    
       var map = new google.maps.Map(document.getElementById("map"), mapOptions);
       var currentLocation = document.getElementById("currentLocation");
-      var currentLocationWeather = document.getElementById("currentLocationWeather");
       $scope.map = map;
 
       new google.maps.Geocoder().geocode({ 'latLng': myLatlng }, function (results, status) {
@@ -105,6 +105,9 @@ angular.module('starter.controllers', [])
             weatherService.getWeather(lat, long).then(function(data) {
               $scope.weather.celsius = Number.parseFloat((data.main.temp - 273).toFixed(2));
               $scope.weather.fahrenheit = Weather.getFfromC($scope.weather.celsius);
+            })
+            .catch(function(err) {
+              $ionicPopup.alert({ title: 'Ops!', template: 'Can\'t get the Weather!' });
             });
             
             // console.log("City: " + city + ", City2: " + cityAlt + ", Country: " + country + ", Country Code: " + countryCode);
@@ -122,8 +125,6 @@ angular.module('starter.controllers', [])
     $scope.changeCelsius = function () {
       $scope.weather.fahrenheit = Weather.getFfromC($scope.weather.celsius);
     };
-    
-    
   })
 
   .controller('LocationsCtrl', function ($scope, Locations) {

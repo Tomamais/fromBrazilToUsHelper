@@ -70,14 +70,14 @@ angular.module('starter.services', [])
   .factory('weatherService', ['$http', '$q', function ($http, $q) {
     function getWeather(lat, long) {
       var deferred = $q.defer();
-      $http.get('http://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + long + '&appid=2de143494c0b295cca9337e1e96b00e0')
+      $http.get('http://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + long + '&appid=6b6e14e5f8f8f60af72756d1f728c70b')
         .success(function (data) {
           deferred.resolve(data);
         })
         .error(function (err) {
           deferred.reject(err);
         });
-      return deferred.promise
+      return deferred.promise;
     }
 
     return {
