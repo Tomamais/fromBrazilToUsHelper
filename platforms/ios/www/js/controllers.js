@@ -1,41 +1,69 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope, $cordovaGeolocation, $ionicLoading, $stateParams, Locations) {
-  console.log('$stateParams:' + $stateParams);
-  
-  // add a loading modal on the top of screen
-  $ionicLoading.show({
-      template: '<ion-spinner icon="bubbles"></ion-spinner><br/>Acquiring location!'
-  });
-  
-  ionic.Platform.ready(function(){ 
+  .controller('DashCtrl', function ($scope, $cordovaGeolocation, $ionicLoading, $stateParams, Locations, Weather, weatherService, $ionicPopup) {
+    // variables
     $scope.weather = {};
     $scope.weather.celsius = -17.78;
     $scope.weather.fahrenheit = 0;
     $scope.weather.min = 0;
     $scope.weather.max = 100;
     $scope.location = {};
-    
-    // location context
-    var posOptions = { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 };
-          
-    $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) {
-      var lat  = position.coords.latitude;
-      var long = position.coords.longitude;
-        
-      var myLatlng = new google.maps.LatLng(lat, long);
-        
-      var mapOptions = {
-          center: myLatlng,
-          zoom: 16,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-      };          
-        
-      // elements    
-      var map = new google.maps.Map(document.getElementById("map"), mapOptions);          
-      var currentLocation = document.getElementById("currentLocation");
-      $scope.map = map;   
+    $scope.locationId = -1;
+  
+    // tab events
+    $scope.$on('$ionicView.enter', function () {
+      // do something before enter
+      if ($stateParams.locationId != $scope.locationId) {
+        $scope.locationId = $stateParams.locationId;
       
+        // location context
+        var posOptions = { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 };
+
+        if ($stateParams.locationId != 0) {
+          showLoading();
+          var location = Locations.get($stateParams.locationId);
+          setMapAndLocation(location.latitude, location.longitude);
+          $ionicLoading.hide();
+        }
+        else {
+          // wait for device get ready due the geoLocation request
+          ionic.Platform.ready(function () {
+            showLoading();
+            $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) {
+              setMapAndLocation(position.coords.latitude, position.coords.longitude);
+              $ionicLoading.hide();
+
+            }, function (err) {
+              $ionicLoading.hide();
+              $ionicPopup.alert({ title: 'Ops!', template: 'Can\'t get your location' });
+              console.log(err);
+            });
+          });
+        }
+      }
+    });
+  
+    // add a loading modal on the top of screen
+    var showLoading = function () {
+      $ionicLoading.show({
+        template: '<ion-spinner icon="bubbles"></ion-spinner><br/>Acquiring location!'
+      });
+    };
+
+    function setMapAndLocation(lat, long) {
+      var myLatlng = new google.maps.LatLng(lat, long);
+
+      var mapOptions = {
+        center: myLatlng,
+        zoom: 16,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };          
+      
+      // elements    
+      var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+      var currentLocation = document.getElementById("currentLocation");
+      $scope.map = map;
+
       new google.maps.Geocoder().geocode({ 'latLng': myLatlng }, function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
           if (results[1]) {
@@ -72,59 +100,46 @@ angular.module('starter.controllers', [])
                 break;
               }
             }
+            
+            // the weather
+            weatherService.getWeather(lat, long).then(function(data) {
+              $scope.weather.celsius = Number.parseFloat((data.main.temp - 273).toFixed(2));
+              $scope.weather.fahrenheit = Weather.getFfromC($scope.weather.celsius);
+            })
+            .catch(function(err) {
+              $ionicPopup.alert({ title: 'Ops!', template: 'Can\'t get the Weather!' });
+            });
+            
             // console.log("City: " + city + ", City2: " + cityAlt + ", Country: " + country + ", Country Code: " + countryCode);
             currentLocation.innerText = "City: " + city + ", Country: " + country;
           }
         }
       });
-      
-      $ionicLoading.hide();           
-          
-    }, function(err) {
-        $ionicLoading.hide();
-        console.log(err);
-    });
-    
-    // input events
-    $scope.change = function(){
-      $scope.weather.celsius = Number.parseFloat((($scope.weather.fahrenheit - 32) / 1.8).toFixed(2));
     };
-    
-    $scope.changeCelsius = function(){
-      $scope.weather.fahrenheit = Number.parseFloat(($scope.weather.celsius * 1.8 + 32).toFixed(2));
+  
+    // input events
+    $scope.change = function () {
+      $scope.weather.celsius = Weather.getCfromF($scope.weather.fahrenheit);
+    };
+
+    $scope.changeCelsius = function () {
+      $scope.weather.fahrenheit = Weather.getFfromC($scope.weather.celsius);
+    };
+  })
+
+  .controller('LocationsCtrl', function ($scope, Locations) {
+    $scope.locations = Locations.all();
+    $scope.remove = function (location) {
+      Locations.remove(location);
+    };
+  })
+
+  .controller('ChatDetailCtrl', function ($scope, $stateParams, Chats) {
+    $scope.chat = Chats.get($stateParams.chatId);
+  })
+
+  .controller('AccountCtrl', function ($scope) {
+    $scope.settings = {
+      enableFriends: true
     };
   });
-})
-
-.controller('LocationsCtrl', function($scope, Locations) {
-
-  $scope.locations = Locations.all();
-  $scope.remove = function(location) {
-    Locations.remove(location);
-  };
-})
-
-.controller('ChatsCtrl', function($scope, Chats) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
-})
-
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
-})
-
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
-});
