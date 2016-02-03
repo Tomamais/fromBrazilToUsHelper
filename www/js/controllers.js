@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-  .controller('DashCtrl', function ($scope, $cordovaGeolocation, $ionicLoading, $stateParams, Locations, Weather, weatherService, $ionicPopup, $state) {
+  .controller('DashCtrl', function ($scope, $cordovaGeolocation, $ionicLoading, $stateParams, Locations, Weather, weatherService, $ionicPopup) {
     // variables
     $scope.weather = {};
     $scope.weather.celsius = -17.78;
@@ -10,10 +10,6 @@ angular.module('starter.controllers', [])
     $scope.location = {};
     $scope.locationId = -1;
   
-    $scope.changePage = function(){
-      $state.go('tab.dash', {locationId: 0});
-    }    
-    
     // tab events
     $scope.$on('$ionicView.enter', function () {
       // do something before enter
@@ -24,7 +20,7 @@ angular.module('starter.controllers', [])
         var posOptions = { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 };
 
         if ($stateParams.locationId != 0) {
-          showLoading();
+          showLoading('Acquiring location...');
           var location = Locations.get($stateParams.locationId);
           setMapAndLocation(location.latitude, location.longitude);
           $ionicLoading.hide();
@@ -32,7 +28,7 @@ angular.module('starter.controllers', [])
         else {
           // wait for device get ready due the geoLocation request
           ionic.Platform.ready(function () {
-            showLoading();
+            showLoading('Acquiring location...');
             $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) {
               setMapAndLocation(position.coords.latitude, position.coords.longitude);
               $ionicLoading.hide();
@@ -48,9 +44,9 @@ angular.module('starter.controllers', [])
     });
   
     // add a loading modal on the top of screen
-    var showLoading = function () {
+    var showLoading = function (message) {
       $ionicLoading.show({
-        template: '<ion-spinner icon="bubbles"></ion-spinner><br/>Acquiring location!'
+        template: '<ion-spinner icon="bubbles"></ion-spinner><br/>' + message + ''
       });
     };
 
@@ -106,12 +102,16 @@ angular.module('starter.controllers', [])
             }
             
             // the weather
+            showLoading('Acquiring weather information...');
             weatherService.getWeather(lat, long).then(function(data) {
               $scope.weather.celsius = Number.parseFloat((data.main.temp - 273).toFixed(2));
               $scope.weather.fahrenheit = Weather.getFfromC($scope.weather.celsius);
             })
             .catch(function(err) {
               $ionicPopup.alert({ title: 'Ops!', template: 'Can\'t get the Weather!' });
+            })
+            .finally(function(){
+              $ionicLoading.hide(); 
             });
             
             // console.log("City: " + city + ", City2: " + cityAlt + ", Country: " + country + ", Country Code: " + countryCode);
