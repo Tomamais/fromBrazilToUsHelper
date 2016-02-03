@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-  .controller('DashCtrl', function ($scope, $cordovaGeolocation, $ionicLoading, $stateParams, Locations, Weather, weatherService, $ionicPopup) {
+  .controller('DashCtrl', function ($scope, $cordovaGeolocation, $ionicLoading, $stateParams, Locations, Weather, weatherService, $ionicPopup, $state) {
     // variables
     $scope.weather = {};
     $scope.weather.celsius = -17.78;
@@ -10,6 +10,10 @@ angular.module('starter.controllers', [])
     $scope.location = {};
     $scope.locationId = -1;
   
+    $scope.changePage = function(){
+      $state.go('tab.dash', {locationId: 0});
+    }    
+    
     // tab events
     $scope.$on('$ionicView.enter', function () {
       // do something before enter

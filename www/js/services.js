@@ -20,13 +20,20 @@ angular.module('starter.services', [])
 
     // Some fake testing data
     var locations = [{
-      id: 1,
-      name: 'Boston',
-      state: 'Massachussets',
-      image: 'img/boston.jpg',
-      latitude: 42.3134791,
-      longitude: -71.1271969
-    }, {
+        id: 0,
+        name: 'My Location',
+        state: '',
+        image: 'img/locationpin.png',
+        latitude: 0,
+        longitude: 0
+      }, {
+        id: 1,
+        name: 'Boston',
+        state: 'Massachussets',
+        image: 'img/boston.jpg',
+        latitude: 42.3134791,
+        longitude: -71.1271969
+      }, {
         id: 2,
         name: 'São Paulo',
         state: 'São Paulo',

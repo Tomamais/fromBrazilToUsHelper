@@ -1,15 +1,13 @@
 <ion-view view-title="Locations">
   <ion-content>
     <button class="button button-icon icon ion-ios-minus-outline" ng-click="showDelete = !showDelete"></button>
-    <ion-list>
+    <ion-list show-delete="showDelete">
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="location in locations" type="item-text-wrap" href="#/tab/dash/{{location.id}}">
         <img ng-src="{{location.image}}">
         <h2>{{location.name}}</h2>
         <p>{{location.state}}</p>
         <i class="icon ion-chevron-right icon-accessory"></i>
-        <ion-option-button class="button-assertive" ng-click="remove(location)">
-          Delete
-        </ion-option-button>
+        <ion-delete-button class="ion-minus-circled" ng-click="remove(location)"></ion-delete-button>
       </ion-item>
     </ion-list>
   </ion-content>
