@@ -11,10 +11,9 @@
     <div class="list card">
       <div class="item item-divider">Fahrenheit</div>
       <div class="item item-body">
-        <div class="item-range range-positive">
-          <p class="fahrenheit">{{weather.fahrenheit}}℉</p>
+        <div class="item item-body">
           <i class="icon ion-ios-snowy"></i>
-          <input step="0.1" ng-min="{{weather.min}}" ng-max="{{weather.max}}" ng-model="weather.fahrenheit" ng-change="change()" value="{{weather.fahrenheit}}" class="fahrenheit" type="range" />
+          <input ng-model="weather.fahrenheit" ng-change="change()" value="{{weather.fahrenheit}}" class="fahrenheit" type="number" />℉
           <i class="icon ion-ios-sunny"></i>
         </div>
       </div>

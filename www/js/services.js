@@ -27,6 +27,20 @@ angular.module('starter.services', [])
         latitude: 0,
         longitude: 0
       }, {
+        id: 5,
+        name: 'Waterfront',
+        state: 'Pennsylvania',
+        image: 'img/waterfront.jpg',
+        latitude: 40.4123831,
+        longitude: -79.9150437
+      }, {
+        id: 6,
+        name: 'Cranberry',
+        state: 'Pennsylvania',
+        image: 'img/cranberry.jpg',
+        latitude: 40.6801906,
+        longitude: -80.0929766
+      }, {
         id: 1,
         name: 'Boston',
         state: 'Massachussets',
