@@ -24,6 +24,11 @@ angular.module('starter.services', [])
         name: 'My Location',
         state: '',
         image: 'img/locationpin.png',
+        temperature: {
+          celsius: 0,
+          fahrenheit: 0,
+          updated: false
+        },
         latitude: 0,
         longitude: 0
       }, {
@@ -31,6 +36,11 @@ angular.module('starter.services', [])
         name: 'Waterfront',
         state: 'Pennsylvania',
         image: 'img/waterfront.jpg',
+        temperature: {
+          celsius: 0,
+          fahrenheit: 0,
+          updated: false
+        },
         latitude: 40.4123831,
         longitude: -79.9150437
       }, {
@@ -38,13 +48,25 @@ angular.module('starter.services', [])
         name: 'Cranberry',
         state: 'Pennsylvania',
         image: 'img/cranberry.jpg',
+        temperature: {
+          celsius: 0,
+          fahrenheit: 0,
+          updated: false,
+          updatedAt: Date.now()
+        },
         latitude: 40.6801906,
         longitude: -80.0929766
-      }, {
+    }, {
         id: 1,
         name: 'Boston',
         state: 'Massachussets',
         image: 'img/boston.jpg',
+        temperature: {
+          celsius: 0,
+          fahrenheit: 0,
+          updated: false,
+          updatedAt: Date.now()
+        },
         latitude: 42.3134791,
         longitude: -71.1271969
       }, {
@@ -52,6 +74,12 @@ angular.module('starter.services', [])
         name: 'São Paulo',
         state: 'São Paulo',
         image: 'img/saopaulo.jpg',
+        temperature: {
+          celsius: 0,
+          fahrenheit: 0,
+          updated: false,
+          updatedAt: Date.now()
+        },
         latitude: -23.6815315,
         longitude: -46.8754877
       }, {
@@ -59,6 +87,12 @@ angular.module('starter.services', [])
         name: 'Santiago',
         state: 'Santiago',
         image: 'img/santiago.jpg',
+        temperature: {
+          celsius: 0,
+          fahrenheit: 0,
+          updated: false,
+          updatedAt: Date.now()
+        },
         latitude: -33.441411,
         longitude: -70.653822
       }, {
@@ -66,6 +100,12 @@ angular.module('starter.services', [])
         name: 'East Falmouth',
         state: 'Massachussets',
         image: 'img/eastfalmouth.jpg',
+        temperature: {
+          celsius: 0,
+          fahrenheit: 0,
+          updated: false,
+          updatedAt: Date.now()
+        },
         latitude: 41.5733903,
         longitude: -70.5898785
       }];

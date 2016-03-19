@@ -2,27 +2,25 @@
   <ion-content class="padding">
     <div class="list card">
       <div class="item item-divider">Celsius</div>
-        <div class="item item-body">
-          <label class="item item-input">
-              <input class="celsius" type="number" name="celsius" ng-model="weather.celsius" ng-change="changeCelsius()"/>℃
-          </label>
-        </div>
+      <div class="item item-body">
+        <label class="item item-input">
+          <input class="celsius" type="number" name="celsius" ng-model="weather.celsius" ng-change="changeCelsius()" />℃
+        </label>
+      </div>
     </div>
     <div class="list card">
       <div class="item item-divider">Fahrenheit</div>
-      <div class="item item-body">
         <div class="item item-body">
-          <i class="icon ion-ios-snowy"></i>
-          <input ng-model="weather.fahrenheit" ng-change="change()" value="{{weather.fahrenheit}}" class="fahrenheit" type="number" />℉
-          <i class="icon ion-ios-sunny"></i>
+          <label class="item item-input">
+            <input ng-model="weather.fahrenheit" ng-change="change()" value="{{weather.fahrenheit}}" class="fahrenheit" type="number" />℉
+          </label>
         </div>
-      </div>
     </div>
     <div class="list card">
       <div class="item item-divider">Current Location Selected</div>
       <div class="item item-body mapbody">
         <label class="item item-input">
-            <span id="currentLocation"></span>
+          <span id="currentLocation"></span>
         </label>
         <div id="map" data-tap-disabled="true"></div>
       </div>
