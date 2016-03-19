@@ -15,14 +15,15 @@ angular.module('starter.controllers', [])
       // do something before enter
       if ($stateParams.locationId != $scope.locationId) {
         $scope.locationId = $stateParams.locationId;
+        $scope.location = Locations.get($stateParams.locationId);
       
         // location context
         var posOptions = { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 };
 
         if ($stateParams.locationId != 0) {
           showLoading('Acquiring location...');
-          var location = Locations.get($stateParams.locationId);
-          setMapAndLocation(location.latitude, location.longitude);
+          
+          setMapAndLocation($scope.location.latitude, $scope.location.longitude);
           $ionicLoading.hide();
         }
         else {
@@ -106,6 +107,10 @@ angular.module('starter.controllers', [])
             weatherService.getWeather(lat, long).then(function(data) {
               $scope.weather.celsius = Number.parseFloat((data.main.temp - 273).toFixed(2));
               $scope.weather.fahrenheit = Weather.getFfromC($scope.weather.celsius);
+              $scope.location.temperature.updated = true;
+              $scope.location.temperature.celsius = $scope.weather.celsius;
+              $scope.location.temperature.fahrenheit = $scope.weather.fahrenheit;
+              $scope.location.temperature.lastUpdate = Date.now();
             })
             .catch(function(err) {
               $ionicPopup.alert({ title: 'Ops!', template: 'Can\'t get the Weather!' });
@@ -131,7 +136,7 @@ angular.module('starter.controllers', [])
     };
   })
 
-  .controller('LocationsCtrl', function ($scope, Locations) {
+  .controller('LocationsCtrl', function ($scope, Locations, weatherService) {
     $scope.locations = Locations.all();
     $scope.remove = function (location) {
       Locations.remove(location);

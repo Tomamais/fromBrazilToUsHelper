@@ -15,9 +15,7 @@ input[type=number].celsius {
 
 input[type=number].fahrenheit {
   height:60px;
-  width: 94%;
-  display: inline;
-  text-align: center;
+  width: 2em;
 }
 
 #map {

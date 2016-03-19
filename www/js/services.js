@@ -34,7 +34,7 @@ angular.module('starter.services', [])
       }, {
         id: 5,
         name: 'Waterfront',
-        state: 'Pennsylvania',
+        state: 'PA',
         image: 'img/waterfront.jpg',
         temperature: {
           celsius: 0,
@@ -46,65 +46,65 @@ angular.module('starter.services', [])
       }, {
         id: 6,
         name: 'Cranberry',
-        state: 'Pennsylvania',
+        state: 'PA',
         image: 'img/cranberry.jpg',
         temperature: {
           celsius: 0,
           fahrenheit: 0,
           updated: false,
-          updatedAt: Date.now()
+          lastUpdate: Date.now()
         },
         latitude: 40.6801906,
         longitude: -80.0929766
     }, {
         id: 1,
         name: 'Boston',
-        state: 'Massachussets',
+        state: 'MA',
         image: 'img/boston.jpg',
         temperature: {
           celsius: 0,
           fahrenheit: 0,
           updated: false,
-          updatedAt: Date.now()
+          lastUpdate: Date.now()
         },
         latitude: 42.3134791,
         longitude: -71.1271969
       }, {
         id: 2,
         name: 'São Paulo',
-        state: 'São Paulo',
+        state: 'SP',
         image: 'img/saopaulo.jpg',
         temperature: {
           celsius: 0,
           fahrenheit: 0,
           updated: false,
-          updatedAt: Date.now()
+          lastUpdate: Date.now()
         },
         latitude: -23.6815315,
         longitude: -46.8754877
       }, {
         id: 3,
         name: 'Santiago',
-        state: 'Santiago',
+        state: 'SA',
         image: 'img/santiago.jpg',
         temperature: {
           celsius: 0,
           fahrenheit: 0,
           updated: false,
-          updatedAt: Date.now()
+          lastUpdate: Date.now()
         },
         latitude: -33.441411,
         longitude: -70.653822
       }, {
         id: 4,
         name: 'East Falmouth',
-        state: 'Massachussets',
+        state: 'MA',
         image: 'img/eastfalmouth.jpg',
         temperature: {
           celsius: 0,
           fahrenheit: 0,
           updated: false,
-          updatedAt: Date.now()
+          lastUpdate: Date.now()
         },
         latitude: 41.5733903,
         longitude: -70.5898785
